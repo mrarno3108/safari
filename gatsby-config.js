@@ -1,5 +1,4 @@
 module.exports = {
-  pathPrefix: '/safari',
   siteMetadata: {
     title: `The Plain Gatsby`,
     description: `A simple minimalist starter for your personal blog.`,
