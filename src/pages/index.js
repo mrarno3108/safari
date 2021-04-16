@@ -10,29 +10,16 @@ import { groupBy, getDateYear } from "../utils"
 const IndexPage = ({ data }) => {
   // all posts without dates are assumed to be drafts or pages
   // not to be added to postsList
-  const posts = data.allMarkdownRemark.edges.filter(
-    p => p.node.frontmatter.date !== null
-  )
-  const postsList = posts =>
-    posts.map(post => (
-      <li key={post.node.id}>
-        <div className="post-date code">
-          <small>{post.node.frontmatter.date}</small>
-        </div>
-        <div className="title">
-          <Link to={post.node.fields.slug}>{post.node.frontmatter.title}</Link>
-        </div>
-      </li>
-    ))
+  const posts = data.allMarkdownRemark.edges.filter((p) => p.node.frontmatter.date !== null)
 
-  const postsListContainer = groupBy(posts, getDateYear)
-    .map(({ year, posts }, i) => (
-      <div key={i}>
-        <h4 className="code">{year}</h4>
-        {postsList(posts)}
-      </div>
-    ))
-    .reverse()
+  const postsListContainer = posts.map((post, i) => (
+    <div key={i}>
+      <li key={post.node.id}>
+        <div className="title">{post.node.frontmatter.title}</div>
+        <div dangerouslySetInnerHTML={{ __html: post.node.html }} />
+      </li>
+    </div>
+  ))
   return (
     <DefaultLayout>
       <SEO title="Home" />
@@ -51,6 +38,7 @@ export const pageQuery = graphql`
       edges {
         node {
           id
+          html
           fields {
             slug
           }
