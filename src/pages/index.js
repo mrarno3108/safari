@@ -10,7 +10,7 @@ import { groupBy, getDateYear } from "../utils"
 const IndexPage = ({ data }) => {
   // all posts without dates are assumed to be drafts or pages
   // not to be added to postsList
-  const posts = data.allMarkdownRemark.edges.filter((p) => p.node.frontmatter.date !== null)
+  const posts = data.allMarkdownRemark.edges
 
   const postsListContainer = posts.map((post, i) => (
     <div key={i}>

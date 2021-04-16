@@ -14,9 +14,6 @@ const PostTemplate = ({ data, pageContext }) => {
       <article>
         <div className="center">
           <h1 className="title">{frontmatter.title}</h1>
-          <span className="code">
-            <small>{frontmatter.date}</small>
-          </span>
         </div>
         <div className="divider" />
         <div dangerouslySetInnerHTML={{ __html: html }} />
