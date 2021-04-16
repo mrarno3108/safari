@@ -1,9 +1,8 @@
 {
-  "name": "the-plain-gatsby-starter",
+  "name": "safari",
   "private": true,
-  "description": "A simple minimalist starter for your personal blog",
-  "version": "0.2.0",
-  "author": "Kinyanjui Wangonya <kwangonya@gmail.com>",
+  "description": "",
+  "version": "0.0.1",
   "dependencies": {
     "gatsby": "^3.1.0",
     "gatsby-plugin-feed": "^3.1.0",
@@ -30,12 +29,6 @@
     "eslint-plugin-react": "^7.22.0",
     "prettier": "^2.2.1"
   },
-  "keywords": [
-    "gatsby",
-    "minimal",
-    "minimalist"
-  ],
-  "license": "MIT",
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
@@ -43,12 +36,5 @@
     "start": "npm run develop",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/wangonya/the-plain-gatsby"
-  },
-  "bugs": {
-    "url": "https://github.com/wangonya/the-plain-gatsby/issues"
   }
 }
