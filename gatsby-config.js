@@ -7,6 +7,8 @@ module.exports = {
     siteUrl: `https://the-plain-gatsby.netlify.com`,
   },
   plugins: [
+    "gatsby-plugin-top-layout",
+    `gatsby-plugin-material-ui`,
     {
       resolve: `gatsby-transformer-remark`,
       options: {
