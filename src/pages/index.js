@@ -7,17 +7,29 @@ import SEO from "../components/seo"
 
 import "../styles/pages.scss"
 
+const KEY_CODES = {
+  ENTER: 13,
+}
+
 const IndexPage = ({ data }) => {
-  // all posts without dates are assumed to be drafts or pages
+  // all phandleKeyUpPressosts without dates are assumed to be drafts or pages
   // not to be added to postsList
   const posts = data.allMarkdownRemark.edges
 
   const [inputValues, setInputValues] = useState({})
   const [postsSolved, setPostsSolved] = useState({ 0: true })
 
-  const handleSolvePost = (post) => {
+  const handleSolvePost = post => {
     if (post.node.frontmatter.password === inputValues[post.node.id]) {
-      setPostsSolved((old) => ({ ...old, [post.node.frontmatter.level]: true }))
+      setPostsSolved(old => ({ ...old, [post.node.frontmatter.level]: true }))
+    }
+  }
+
+  const handleKeyUpPress = post => event => {
+    const { ENTER } = KEY_CODES
+
+    if (event.keyCode === ENTER) {
+      handleSolvePost(post)
     }
   }
 
@@ -49,12 +61,16 @@ const IndexPage = ({ data }) => {
           <input
             type="text"
             value={inputValues[post.node.id] || ""}
-            onChange={(e) => setInputValues((old) => ({ ...old, [post.node.id]: e.target.value }))}
+            onChange={e => setInputValues(old => ({ ...old, [post.node.id]: e.target.value }))}
+            onKeyPress={handleKeyUpPress(post)}
+            onKeyUp={handleKeyUpPress(post)}
           />
         )}
-        <div className="submitButton" onClick={() => handleSolvePost(post)}>
-          Submit
-        </div>
+        {!postsSolved[post.node.frontmatter.level] && (
+          <div className="submitButton" onClick={() => handleSolvePost(post)}>
+            Submit
+          </div>
+        )}
       </div>
     </div>
   ))
