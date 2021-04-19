@@ -1,0 +1,21 @@
+.uncollapsedPost {
+  max-height: 100%;
+  transition: all 2s ease-in-out;
+}
+
+.collapsedPost {
+  max-height: 0px;
+  overflow: hidden;
+  transition: all 2s ease-in-out;
+}
+
+.submitButton {
+  margin-left: 1rem;
+  border-style: solid;
+  border-radius: 2px;
+  border-width: 1px;
+  padding: 5px;
+  &:hover {
+    cursor: pointer;
+  }
+}
