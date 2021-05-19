@@ -68,7 +68,7 @@ const IndexPage = ({ data }) => {
         )}
         {!postsSolved[post.node.frontmatter.level] && (
           <div className="submitButton" onClick={() => handleSolvePost(post)}>
-            Submit
+            ABSCHICKEN!
           </div>
         )}
       </div>
