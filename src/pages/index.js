@@ -58,7 +58,7 @@ const IndexPage = ({ data }) => {
         <Box display="flex" justifyContent="center" textAlign="center">
           <Collapse in={!postsSolved[post.node.frontmatter.level]} unmountOnExit>
             <TextField
-              style={{ marginRight: 10 }}
+              sx={{ mr: 10 }}
               size="small"
               label="Lösung"
               value={inputValues[post.node.id] || ""}
