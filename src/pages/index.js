@@ -1,8 +1,12 @@
 import React, { useState } from "react"
-import { Link, graphql } from "gatsby"
+import { graphql } from "gatsby"
+import Button from "@material-ui/core/Button"
+import TextField from "@material-ui/core/TextField"
+import Collapse from "@material-ui/core/Collapse"
+import Typography from "@material-ui/core/Typography"
+import Box from "@material-ui/core/Box"
 
 import DefaultLayout from "../layouts/default"
-import Image from "../components/image"
 import SEO from "../components/seo"
 
 import "../styles/pages.scss"
@@ -17,11 +21,15 @@ const IndexPage = ({ data }) => {
   const posts = data.allMarkdownRemark.edges
 
   const [inputValues, setInputValues] = useState({})
+  const [inputError, setInputError] = useState(false)
   const [postsSolved, setPostsSolved] = useState({ 0: true })
 
   const handleSolvePost = post => {
     if (post.node.frontmatter.password === inputValues[post.node.id]) {
       setPostsSolved(old => ({ ...old, [post.node.frontmatter.level]: true }))
+      setInputError(false)
+    } else {
+      setInputError("Wrooong")
     }
   }
 
@@ -33,47 +41,43 @@ const IndexPage = ({ data }) => {
     }
   }
 
-  const postsListContainer = posts.map((post, i) => (
-    <div
-      key={i}
-      className={
-        console.log({ post, postsSolved, solved: postsSolved[post.node.frontmatter.level - 1] }) ||
-        postsSolved[post.node.frontmatter.level - 1]
-          ? "uncollapsedPost"
-          : "collapsedPost"
-      }
-    >
-      <li key={post.node.id}>
-        <div className="title">{post.node.frontmatter.title}</div>
-        <div dangerouslySetInnerHTML={{ __html: post.node.html }} />
-      </li>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+  const postsListContainer = posts.map((post, i) => {
+    const previousSolved = !!postsSolved[post.node.frontmatter.level - 1]
+
+    return (
+      <Collapse
+        timeout={{ appear: 1000, enter: 1000, exit: 1000 }}
+        in={previousSolved}
+        key={i}
+        unmountOnExit
       >
-        {postsSolved[post.node.frontmatter.level] ? (
-          <div>SOLVED</div>
-        ) : (
-          <input
-            type="text"
-            value={inputValues[post.node.id] || ""}
-            onChange={e => setInputValues(old => ({ ...old, [post.node.id]: e.target.value }))}
-            onKeyPress={handleKeyUpPress(post)}
-            onKeyUp={handleKeyUpPress(post)}
-          />
-        )}
-        {!postsSolved[post.node.frontmatter.level] && (
-          <div className="submitButton" onClick={() => handleSolvePost(post)}>
-            ABSCHICKEN!
-          </div>
-        )}
-      </div>
-    </div>
-  ))
+        <li key={post.node.id}>
+          <div className="title">{post.node.frontmatter.title}</div>
+          <div dangerouslySetInnerHTML={{ __html: post.node.html }} />
+        </li>
+        <Box display="flex" justifyContent="center" textAlign="center">
+          <Collapse in={!postsSolved[post.node.frontmatter.level]} unmountOnExit>
+            <TextField
+              style={{ marginRight: 10 }}
+              size="small"
+              label="Lösung"
+              value={inputValues[post.node.id] || ""}
+              onChange={e => setInputValues(old => ({ ...old, [post.node.id]: e.target.value }))}
+              onKeyPress={handleKeyUpPress(post)}
+              onKeyUp={handleKeyUpPress(post)}
+              error={!!inputError}
+              helperText={inputError || ""}
+            />
+
+            <Button className="submitButton" onClick={() => handleSolvePost(post)}>
+              Abschicken
+            </Button>
+          </Collapse>
+        </Box>
+      </Collapse>
+    )
+  })
+
   return (
     <DefaultLayout>
       <SEO title="Home" />
@@ -83,8 +87,6 @@ const IndexPage = ({ data }) => {
     </DefaultLayout>
   )
 }
-
-export default IndexPage
 
 export const pageQuery = graphql`
   query {
@@ -106,3 +108,5 @@ export const pageQuery = graphql`
     }
   }
 `
+
+export default IndexPage
