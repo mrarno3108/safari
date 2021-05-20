@@ -69,22 +69,23 @@ const IndexPage = ({ data }) => {
             />
 
             <Button className="submitButton" onClick={() => handleSolvePost(post)}>
-              Submit
+              Abschicken
             </Button>
           </Collapse>
         </Box>
       </Collapse>
     )
   })
+
+  return (
+    <DefaultLayout>
+      <SEO title="Home" />
+      <section>
+        <ul>{postsListContainer}</ul>
+      </section>
+    </DefaultLayout>
+  )
 }
-return (
-  <DefaultLayout>
-    <SEO title="Home" />
-    <section>
-      <ul>{postsListContainer}</ul>
-    </section>
-  </DefaultLayout>
-)
 
 export const pageQuery = graphql`
   query {
