@@ -41,56 +41,50 @@ const IndexPage = ({ data }) => {
     }
   }
 
-  return (
-    <DefaultLayout>
-      <SEO title="Home" />
-      <section>
-        <ul>
-          {posts.map((post, i) => {
-            const previousSolved = !!postsSolved[post.node.frontmatter.level - 1]
-            return (
-              <Collapse
-                timeout={{ appear: 1000, enter: 1000, exit: 1000 }}
-                in={previousSolved}
-                key={i}
-                unmountOnExit
-              >
-                <div key={i}>
-                  <li key={post.node.id}>
-                    <div className="title">{post.node.frontmatter.title}</div>
-                    <div dangerouslySetInnerHTML={{ __html: post.node.html }} />
-                  </li>
-                  <Box display="flex" justifyContent="center" textAlign="center">
-                    <Collapse in={!postsSolved[post.node.frontmatter.level]} unmountOnExit>
-                      <TextField
-                        size="small"
-                        label="Lösung"
-                        value={inputValues[post.node.id] || ""}
-                        onChange={e =>
-                          setInputValues(old => ({ ...old, [post.node.id]: e.target.value }))
-                        }
-                        onKeyPress={handleKeyUpPress(post)}
-                        onKeyUp={handleKeyUpPress(post)}
-                        error={!!inputError}
-                        helperText={inputError || ""}
-                      />
+  const postsListContainer = posts.map((post, i) => {
+    const previousSolved = !!postsSolved[post.node.frontmatter.level - 1]
 
-                      <Button className="submitButton" onClick={() => handleSolvePost(post)}>
-                        Submit
-                      </Button>
-                    </Collapse>
-                  </Box>
-                </div>
-              </Collapse>
-            )
-          })}
-        </ul>
-      </section>
-    </DefaultLayout>
-  )
+    return (
+      <Collapse
+        timeout={{ appear: 1000, enter: 1000, exit: 1000 }}
+        in={previousSolved}
+        key={i}
+        unmountOnExit
+      >
+        <li key={post.node.id}>
+          <div className="title">{post.node.frontmatter.title}</div>
+          <div dangerouslySetInnerHTML={{ __html: post.node.html }} />
+        </li>
+        <Box display="flex" justifyContent="center" textAlign="center">
+          <Collapse in={!postsSolved[post.node.frontmatter.level]} unmountOnExit>
+            <TextField
+              size="small"
+              label="Lösung"
+              value={inputValues[post.node.id] || ""}
+              onChange={e => setInputValues(old => ({ ...old, [post.node.id]: e.target.value }))}
+              onKeyPress={handleKeyUpPress(post)}
+              onKeyUp={handleKeyUpPress(post)}
+              error={!!inputError}
+              helperText={inputError || ""}
+            />
+
+            <Button className="submitButton" onClick={() => handleSolvePost(post)}>
+              Submit
+            </Button>
+          </Collapse>
+        </Box>
+      </Collapse>
+    )
+  })
 }
-
-export default IndexPage
+return (
+  <DefaultLayout>
+    <SEO title="Home" />
+    <section>
+      <ul>{postsListContainer}</ul>
+    </section>
+  </DefaultLayout>
+)
 
 export const pageQuery = graphql`
   query {
@@ -112,3 +106,5 @@ export const pageQuery = graphql`
     }
   }
 `
+
+export default IndexPage
