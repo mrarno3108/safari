@@ -15,12 +15,21 @@ const theme = createMuiTheme({
       main: red.A400,
     },
     background: {
-      default: "#1e1e1e",
+      default: "#444444",
       paper: "#fff",
     },
     text: {
       primary: "#fff",
       secondary: "#fff",
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: "none",
+        },
+      },
     },
   },
 })

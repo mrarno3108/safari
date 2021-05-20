@@ -45,12 +45,7 @@ const IndexPage = ({ data }) => {
     const previousSolved = !!postsSolved[post.node.frontmatter.level - 1]
 
     return (
-      <Collapse
-        timeout={{ appear: 1000, enter: 1000, exit: 1000 }}
-        in={previousSolved}
-        key={i}
-        unmountOnExit
-      >
+      <Collapse in={previousSolved} key={i} unmountOnExit>
         <li key={post.node.id}>
           <div className="title">{post.node.frontmatter.title}</div>
           <div dangerouslySetInnerHTML={{ __html: post.node.html }} />
@@ -58,7 +53,7 @@ const IndexPage = ({ data }) => {
         <Box display="flex" justifyContent="center" textAlign="center">
           <Collapse in={!postsSolved[post.node.frontmatter.level]} unmountOnExit>
             <TextField
-              sx={{ mr: 10 }}
+              sx={{ mr: 2 }}
               size="small"
               label="Lösung"
               value={inputValues[post.node.id] || ""}
@@ -69,7 +64,11 @@ const IndexPage = ({ data }) => {
               helperText={inputError || ""}
             />
 
-            <Button className="submitButton" onClick={() => handleSolvePost(post)}>
+            <Button
+              variant="contained"
+              className="submitButton"
+              onClick={() => handleSolvePost(post)}
+            >
               Abschicken
             </Button>
           </Collapse>
